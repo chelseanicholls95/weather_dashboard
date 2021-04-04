@@ -32,19 +32,35 @@ const getForecastData = (dailyData) => {
   return data;
 };
 
-const renderCurrentCardComponent = (currentData) => {
+const renderCurrentCard = (currentData) => {
   // create components
   const currentWeather = `<div class="d-flex justify-content-center mt-3">
   <h2>${currentData.name}, ${currentData.date}</h2>
 </div>
 <div>
-  <div class="m-2">Temperature: ${currentData.temperature}</div>
+  <div class="m-2">Temperature: ${currentData.temperature} °C</div>
   <div class="m-2">Humidity: ${currentData.humidity}</div>
   <div class="m-2">Wind Speed: ${currentData.windSpeed}</div>
   <div class="m-2">UV Index: ${currentData.uvIndex}</div>
 </div>`;
   // append to container
   $("#current-weather").append(currentWeather);
+};
+
+const renderForecastCard = (forecastData) => {
+  const forecastWeather = `<div
+    class="card text-white bg-primary m-2"
+    style="min-width: 10rem"
+  >
+    <div class="card-header">${forecastData.date}</div>
+    <div class="card-body">
+      <h5 class="card-title">Icon here</h5>
+      <p class="card-text">Temperature: ${forecastData.temperature}</p>
+      <p class="card-text">Humidity: ${forecastData.humidity}</p>
+    </div>
+  </div>`;
+
+  $("#7-day-forecast").append(forecastWeather);
 };
 
 const fetchAllWeatherData = (cityName) => {
@@ -63,10 +79,11 @@ const fetchAllWeatherData = (cityName) => {
     const functionForApplication = (dataFromServer) => {
       // get current data and forecast data from dataFromServer
       const currentData = getCurrentData(cityName, dataFromServer.current);
-      const forecastData = dataFromServer.daily.forEach(getForecastData);
+      const forecastData = dataFromServer.daily.map(getForecastData);
       // renderCurrentCardComponent(currentData)
-      renderCurrentCardComponent(currentData);
+      renderCurrentCard(currentData);
       // renderForecastCardComponent(forecastData)
+      forecastData.forEach(renderForecastCard);
     };
 
     const functionToHandleError = (errorObject) => {
