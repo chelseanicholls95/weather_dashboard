@@ -22,17 +22,25 @@ const getDate = (dt) => {
   return date;
 };
 
+const getIconUrl = (weather) => {
+  const iconCode = weather[0].icon;
+  const url = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+  return url;
+};
+
 const getCurrentData = (cityName, currentData) => {
   // extract data from current data
   const data = {
     name: cityName,
     date: getDate(currentData.dt),
-    iconURL: "",
+    iconURL: getIconUrl(currentData.weather),
     temperature: currentData.temp,
     humidity: currentData.humidity,
     windSpeed: currentData.wind_speed,
     uvIndex: currentData.uvi,
   };
+
+  console.log(data);
   return data;
 };
 
@@ -40,7 +48,7 @@ const getForecastData = (dailyData) => {
   // extract data from the forecast data
   const data = {
     date: getDate(dailyData.dt),
-    iconURL: "",
+    iconURL: getIconUrl(dailyData.weather),
     temperature: dailyData.temp.day,
     humidity: dailyData.humidity,
   };
@@ -50,14 +58,15 @@ const getForecastData = (dailyData) => {
 const renderCurrentCard = (currentData) => {
   // create elements
   const currentWeather = `<div class="d-flex justify-content-center mt-3">
-  <h2>${currentData.name}, ${currentData.date}</h2>
-</div>
+  <h2>${currentData.name}, ${currentData.date} <img src="${currentData.iconURL}" /></h2>
+  </div>
 <div>
   <div class="m-2">Temperature: ${currentData.temperature} °C</div>
-  <div class="m-2">Humidity: ${currentData.humidity}</div>
-  <div class="m-2">Wind Speed: ${currentData.windSpeed}</div>
-  <div class="m-2">UV Index: ${currentData.uvIndex}</div>
+  <div class="m-2">Humidity: ${currentData.humidity}%</div>
+  <div class="m-2">Wind Speed: ${currentData.windSpeed} MPH</div>
+  <div class="m-2">UV Index: <span class="uv-index" id="uv-index">${currentData.uvIndex}</span></div>
 </div>`;
+
   // append to container
   $("#current-weather").append(currentWeather);
 };
@@ -70,9 +79,9 @@ const renderForecastCard = (forecastData) => {
   >
     <div class="card-header">${forecastData.date}</div>
     <div class="card-body">
-      <h5 class="card-title">Icon here</h5>
-      <p class="card-text">Temperature: ${forecastData.temperature}</p>
-      <p class="card-text">Humidity: ${forecastData.humidity}</p>
+      <h5 class="card-title"><img src="${forecastData.iconURL}" /></h5>
+      <p class="card-text">Temperature: ${forecastData.temperature} °C</p>
+      <p class="card-text">Humidity: ${forecastData.humidity}%</p>
     </div>
   </div>`;
 
