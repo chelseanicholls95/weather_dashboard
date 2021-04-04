@@ -8,7 +8,7 @@ const onClick = (event) => {
 
 const renderCities = (city) => {
   const listItem = `<li class="list-group-item" id="city">${city}</li>`;
-  $(".list-group").append(listItem);
+  $(".list-group").prepend(listItem);
 };
 
 const getDate = (dt) => {
@@ -136,7 +136,6 @@ const onLoad = () => {
 
   // if data is present and pass the data from local storage
   if (citiesFromLocalStorage) {
-    citiesFromLocalStorage.reverse();
     citiesFromLocalStorage.forEach(renderCities);
   }
 
@@ -155,6 +154,7 @@ const onSubmit = (event) => {
   const cityName = $(".form-control").val();
   fetchAllWeatherData(cityName);
   renderCities(cityName);
+  $(".form-control").val("");
 
   // save to local storage
   const citiesFromLocalStorage = getCitiesFromLocalStorage();
