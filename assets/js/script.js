@@ -64,6 +64,11 @@ const renderForecastCard = (forecastData) => {
 };
 
 const fetchAllWeatherData = (cityName) => {
+  // remove previous cities weather
+  $("#current-weather").empty();
+  $("#7-day-forecast").empty();
+
+  // construct url
   const url = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a6cdce351d249a3594ef62adb60dd561&units=metric`;
 
   const functionForJSON = (responseObject) => responseObject.json();
@@ -80,9 +85,8 @@ const fetchAllWeatherData = (cityName) => {
       // get current data and forecast data from dataFromServer
       const currentData = getCurrentData(cityName, dataFromServer.current);
       const forecastData = dataFromServer.daily.map(getForecastData);
-      // renderCurrentCardComponent(currentData)
+      // render current and forecast data
       renderCurrentCard(currentData);
-      // renderForecastCardComponent(forecastData)
       forecastData.forEach(renderForecastCard);
     };
 
@@ -104,20 +108,45 @@ const fetchAllWeatherData = (cityName) => {
     .catch(functionToHandleError);
 };
 
+const getCitiesFromLocalStorage = () => {
+  // get cities from local storage
+  const citiesFromLocalStorage = localStorage.getItem("cities");
+
+  if (citiesFromLocalStorage) {
+    return JSON.parse(citiesFromLocalStorage);
+  } else {
+    return [];
+  }
+};
+
 const onLoad = () => {
   // read from local storage and store data in variable called citiesFromLocalStorage
-  const citiesFromLocalStorage = localStorage.getItem("cities");
+  const citiesFromLocalStorage = getCitiesFromLocalStorage();
   // if data is present and pass the data from local storage
   if (citiesFromLocalStorage) {
     renderCities(citiesFromLocalStorage);
-  } else {
-    localStorage.setItem("cities", "[]");
   }
   // get the last city name from citiesFromLocalStorage and store in variable called cityName
   const length = citiesFromLocalStorage.length;
-  const lastCity = citiesFromLocalStorage[length];
+  const index = length - 1;
+  const lastCity = citiesFromLocalStorage[index];
 
-  fetchAllWeatherData("Solihull");
+  console.log(index);
+
+  fetchAllWeatherData(lastCity);
 };
 
+const onSubmit = (event) => {
+  event.preventDefault();
+  // get input value and fetch weather for that city
+  const cityName = $(".form-control").val();
+  fetchAllWeatherData(cityName);
+
+  // save to local storage
+  const citiesFromLocalStorage = getCitiesFromLocalStorage();
+  citiesFromLocalStorage.push(cityName);
+  localStorage.setItem("cities", JSON.stringify(citiesFromLocalStorage));
+};
+
+$("#form").submit(onSubmit);
 $(document).ready(onLoad);
