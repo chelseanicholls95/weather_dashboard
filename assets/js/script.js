@@ -4,7 +4,6 @@ const getDate = (dt) => {
   var utcSeconds = dt;
   var date = new Date(0);
   date.setUTCSeconds(utcSeconds);
-  date.toDateString();
   return date;
 };
 
@@ -16,6 +15,7 @@ const getCurrentData = (cityName, currentData) => {
     iconURL: "",
     temperature: currentData.temp,
     humidity: currentData.humidity,
+    windSpeed: currentData.wind_speed,
     uvIndex: currentData.uvi,
   };
   return data;
@@ -32,6 +32,21 @@ const getForecastData = (dailyData) => {
   return data;
 };
 
+const renderCurrentCardComponent = (currentData) => {
+  // create components
+  const currentWeather = `<div class="d-flex justify-content-center mt-3">
+  <h2>${currentData.name}, ${currentData.date}</h2>
+</div>
+<div>
+  <div class="m-2">Temperature: ${currentData.temperature}</div>
+  <div class="m-2">Humidity: ${currentData.humidity}</div>
+  <div class="m-2">Wind Speed: ${currentData.windSpeed}</div>
+  <div class="m-2">UV Index: ${currentData.uvIndex}</div>
+</div>`;
+  // append to container
+  $("#current-weather").append(currentWeather);
+};
+
 const fetchAllWeatherData = (cityName) => {
   const url = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a6cdce351d249a3594ef62adb60dd561&units=metric`;
 
@@ -46,13 +61,11 @@ const fetchAllWeatherData = (cityName) => {
     const functionForJSON = (responseObject) => responseObject.json();
 
     const functionForApplication = (dataFromServer) => {
-      // whatever your application code is goes here
-      // call a function getCurrentData() to get data from dataFromServer
+      // get current data and forecast data from dataFromServer
       const currentData = getCurrentData(cityName, dataFromServer.current);
-      // getCurrentData() and store in currentData
       const forecastData = dataFromServer.daily.forEach(getForecastData);
-      // getForecastData() and store in foreCastData
       // renderCurrentCardComponent(currentData)
+      renderCurrentCardComponent(currentData);
       // renderForecastCardComponent(forecastData)
     };
 
