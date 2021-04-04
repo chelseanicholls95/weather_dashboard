@@ -1,4 +1,15 @@
-const renderCities = () => {};
+const onClick = (event) => {
+  const target = $(event.target);
+  if (target.is("li")) {
+    const cityName = target.text();
+    fetchAllWeatherData(cityName);
+  }
+};
+
+const renderCities = (city) => {
+  const listItem = `<li class="list-group-item" id="city">${city}</li>`;
+  $(".list-group").append(listItem);
+};
 
 const getDate = (dt) => {
   var utcSeconds = dt;
@@ -63,7 +74,7 @@ const renderForecastCard = (forecastData) => {
   $("#7-day-forecast").append(forecastWeather);
 };
 
-const fetchAllWeatherData = (cityName) => {
+const fetchAllWeatherData = (cityName = "Solihull") => {
   // remove previous cities weather
   $("#current-weather").empty();
   $("#7-day-forecast").empty();
@@ -122,17 +133,19 @@ const getCitiesFromLocalStorage = () => {
 const onLoad = () => {
   // read from local storage and store data in variable called citiesFromLocalStorage
   const citiesFromLocalStorage = getCitiesFromLocalStorage();
+
   // if data is present and pass the data from local storage
   if (citiesFromLocalStorage) {
-    renderCities(citiesFromLocalStorage);
+    citiesFromLocalStorage.reverse();
+    citiesFromLocalStorage.forEach(renderCities);
   }
+
   // get the last city name from citiesFromLocalStorage and store in variable called cityName
   const length = citiesFromLocalStorage.length;
   const index = length - 1;
   const lastCity = citiesFromLocalStorage[index];
 
-  console.log(index);
-
+  // fetch data for last searched city
   fetchAllWeatherData(lastCity);
 };
 
@@ -141,6 +154,7 @@ const onSubmit = (event) => {
   // get input value and fetch weather for that city
   const cityName = $(".form-control").val();
   fetchAllWeatherData(cityName);
+  renderCities(cityName);
 
   // save to local storage
   const citiesFromLocalStorage = getCitiesFromLocalStorage();
@@ -148,5 +162,6 @@ const onSubmit = (event) => {
   localStorage.setItem("cities", JSON.stringify(citiesFromLocalStorage));
 };
 
+$(".list-group").click(onClick);
 $("#form").submit(onSubmit);
 $(document).ready(onLoad);
