@@ -18,7 +18,6 @@ const getDate = (datetime) => {
   // convert to date
   const date = new Date(0);
   date.setUTCSeconds(datetime);
-  console.log(date);
   return date;
 };
 
@@ -40,7 +39,6 @@ const getCurrentData = (cityName, currentData) => {
     uvIndex: currentData.uvi,
   };
 
-  console.log(data);
   return data;
 };
 
