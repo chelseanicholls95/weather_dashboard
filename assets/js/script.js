@@ -14,17 +14,17 @@ const renderCities = (city) => {
   $(".list-group").prepend(listItem);
 };
 
-const getDate = (dt) => {
+const getDate = (datetime) => {
   // convert to date
-  const utcSeconds = dt;
   const date = new Date(0);
-  date.setUTCSeconds(utcSeconds);
+  date.setUTCSeconds(datetime);
+  console.log(date);
   return date;
 };
 
 const getIconUrl = (weather) => {
   const iconCode = weather[0].icon;
-  const url = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+  const url = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
   return url;
 };
 
@@ -95,7 +95,7 @@ const fetchAllWeatherData = (cityName = "Solihull") => {
   $("#7-day-forecast").empty();
 
   // construct url
-  const url = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a6cdce351d249a3594ef62adb60dd561&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a6cdce351d249a3594ef62adb60dd561&units=metric`;
 
   const functionForJSON = (responseObject) => responseObject.json();
 
