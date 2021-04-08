@@ -65,7 +65,7 @@ const renderCurrentCard = (currentData) => {
   const currentWeather = `<div class="d-flex justify-content-center mt-3">
   <h2>${currentData.name}, ${currentData.date} <img src="${currentData.iconURL}" /></h2>
   </div>
-<div>
+<div class="mx-5">
   <div class="m-2">Temperature: ${currentData.temperature} °C</div>
   <div class="m-2">Humidity: ${currentData.humidity}%</div>
   <div class="m-2">Wind Speed: ${currentData.windSpeed} MPH</div>
@@ -79,8 +79,8 @@ const renderCurrentCard = (currentData) => {
 const renderForecastCard = (forecastData) => {
   // create elements
   const forecastWeather = `<div
-    class="card text-white bg-primary m-2"
-    style="min-width: 10rem"
+    class="card text-white bg-dark m-2 text-center"
+    style="width: 12rem"
   >
     <div class="card-header">${forecastData.date}</div>
     <div class="card-body">
