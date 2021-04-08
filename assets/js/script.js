@@ -18,10 +18,17 @@ const getDate = (datetime) => {
   // convert to date
   const date = new Date(0);
   date.setUTCSeconds(datetime);
-  return date;
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  const formattedDate = `${day}/${month}/${year}`;
+
+  return formattedDate;
 };
 
 const getIconUrl = (weather) => {
+  // get icon code and construct url
   const iconCode = weather[0].icon;
   const url = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
   return url;
