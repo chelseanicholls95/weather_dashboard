@@ -93,14 +93,15 @@ const renderCurrentCard = (currentData) => {
 renderForecastTitle = () => {
   const forecastTitle = `<div class="d-flex justify-content-center mt-3">
     <h4>7-Day Forecast:</h4>
-  </div>`;
+  </div>
+  <div class="d-flex flex-row flex-wrap justify-content-center m-3 border" id="7-day-forecast">`;
 
   $("#main-div").append(forecastTitle);
 };
 
 const renderForecastCard = (forecastData) => {
   // create elements
-  const forecastWeather = `<div class="d-flex flex-row flex-wrap justify-content-center m-3" id="7-day-forecast">
+  const forecastWeather = `
   <div
     class="card text-white bg-dark m-2 text-center"
     style="width: 12rem"
@@ -114,7 +115,7 @@ const renderForecastCard = (forecastData) => {
   </div>`;
 
   // append to container
-  $("#main-div").append(forecastWeather);
+  $("#7-day-forecast").append(forecastWeather);
 };
 
 const renderErrorMessage = () => {
@@ -171,9 +172,8 @@ const fetchAllWeatherData = (cityName = "Solihull") => {
       forecastData.slice(1).forEach(renderForecastCard);
     };
 
-    const functionToHandleError = (errorObject) => {
-      // handle your error here according to your application
-      console.log(errorObject);
+    const functionToHandleError = () => {
+      renderErrorMessage();
     };
 
     fetch(url)
@@ -182,8 +182,7 @@ const fetchAllWeatherData = (cityName = "Solihull") => {
       .catch(functionToHandleError);
   };
 
-  const functionToHandleError = (errorObject) => {
-    console.log("error");
+  const functionToHandleError = () => {
     renderErrorMessage();
   };
 
