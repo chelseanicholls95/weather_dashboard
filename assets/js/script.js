@@ -1,3 +1,5 @@
+const apiKey = "a6cdce351d249a3594ef62adb60dd561";
+
 const onClick = (event) => {
   // get target of click
   const target = $(event.target);
@@ -69,7 +71,7 @@ const renderCurrentCard = (currentData) => {
   <div class="m-2">Temperature: ${currentData.temperature} °C</div>
   <div class="m-2">Humidity: ${currentData.humidity}%</div>
   <div class="m-2">Wind Speed: ${currentData.windSpeed} MPH</div>
-  <div class="m-2">UV Index: <span class="uv-index" id="uv-index">${currentData.uvIndex}</span></div>
+  <div class="m-2">UV Index: <span class="">${currentData.uvIndex}</span></div>
 </div>`;
 
   // append to container
@@ -94,13 +96,21 @@ const renderForecastCard = (forecastData) => {
   $("#7-day-forecast").append(forecastWeather);
 };
 
+const constructUrl = (cityName, lat, lon) => {
+  if (cityName !== "") {
+    return `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+  } else {
+    return `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+  }
+};
+
 const fetchAllWeatherData = (cityName = "Solihull") => {
   // remove previous cities weather
   $("#current-weather").empty();
   $("#7-day-forecast").empty();
 
   // construct url
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a6cdce351d249a3594ef62adb60dd561&units=metric`;
+  const url = constructUrl(cityName, "", "");
 
   const functionForJSON = (responseObject) => responseObject.json();
 
@@ -111,7 +121,7 @@ const fetchAllWeatherData = (cityName = "Solihull") => {
     const lon = dataFromServer.coord.lon;
 
     // construct url
-    const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=a6cdce351d249a3594ef62adb60dd561&units=metric`;
+    const url = constructUrl("", lat, lon);
 
     const functionForJSON = (responseObject) => responseObject.json();
 
@@ -122,7 +132,7 @@ const fetchAllWeatherData = (cityName = "Solihull") => {
 
       // render current and forecast data
       renderCurrentCard(currentData);
-      forecastData.forEach(renderForecastCard);
+      forecastData.slice(1).forEach(renderForecastCard);
     };
 
     const functionToHandleError = (errorObject) => {
