@@ -75,7 +75,8 @@ const getForecastData = (dailyData) => {
 const renderCurrentCard = (currentData) => {
   // create elements
   const uvIndexClass = getUvIndexClass(currentData.uvIndex);
-  const currentWeather = `<div class="d-flex justify-content-center mt-3">
+  const currentWeather = `<div id="current-weather">
+  <div class="d-flex justify-content-center mt-3">
   <h2>${currentData.name}, ${currentData.date} <img src="${currentData.iconURL}" /></h2>
   </div>
 <div class="mx-5">
@@ -83,15 +84,24 @@ const renderCurrentCard = (currentData) => {
   <div class="m-2">Humidity: ${currentData.humidity}%</div>
   <div class="m-2">Wind Speed: ${currentData.windSpeed} MPH</div>
   <div class="m-2">UV Index: <span class="p-1 rounded ${uvIndexClass}">${currentData.uvIndex}</span></div>
-</div>`;
+</div></div>`;
 
   // append to container
-  $("#current-weather").append(currentWeather);
+  $("#main-div").append(currentWeather);
+};
+
+renderForecastTitle = () => {
+  const forecastTitle = `<div class="d-flex justify-content-center mt-3">
+    <h4>7-Day Forecast:</h4>
+  </div>`;
+
+  $("#main-div").append(forecastTitle);
 };
 
 const renderForecastCard = (forecastData) => {
   // create elements
-  const forecastWeather = `<div
+  const forecastWeather = `<div class="d-flex flex-row flex-wrap justify-content-center m-3" id="7-day-forecast">
+  <div
     class="card text-white bg-dark m-2 text-center"
     style="width: 12rem"
   >
@@ -104,7 +114,22 @@ const renderForecastCard = (forecastData) => {
   </div>`;
 
   // append to container
-  $("#7-day-forecast").append(forecastWeather);
+  $("#main-div").append(forecastWeather);
+};
+
+const renderErrorMessage = () => {
+  // clear any info on page
+  $("#main-div").empty();
+
+  // create error message
+  const errorMessage = `<div class="text-center position-relative h-100 w-100">
+  <div class="position-absolute top-50 start-50 translate-middle bg-dark text-white p-3 rounded">
+  <h3>Something went wrong!</h3>
+  <div>Oops, we were not able to find the city you are looking for. Please enter a valid city name.</div>
+  </div>
+  </div>`;
+
+  $("#main-div").append(errorMessage);
 };
 
 const constructUrl = (cityName, lat, lon) => {
@@ -117,8 +142,7 @@ const constructUrl = (cityName, lat, lon) => {
 
 const fetchAllWeatherData = (cityName = "Solihull") => {
   // remove previous cities weather
-  $("#current-weather").empty();
-  $("#7-day-forecast").empty();
+  $("#main-div").empty();
 
   // construct url
   const url = constructUrl(cityName, "", "");
@@ -143,11 +167,13 @@ const fetchAllWeatherData = (cityName = "Solihull") => {
 
       // render current and forecast data
       renderCurrentCard(currentData);
+      renderForecastTitle();
       forecastData.slice(1).forEach(renderForecastCard);
     };
 
     const functionToHandleError = (errorObject) => {
       // handle your error here according to your application
+      console.log(errorObject);
     };
 
     fetch(url)
@@ -156,7 +182,10 @@ const fetchAllWeatherData = (cityName = "Solihull") => {
       .catch(functionToHandleError);
   };
 
-  const functionToHandleError = (errorObject) => {};
+  const functionToHandleError = (errorObject) => {
+    console.log("error");
+    renderErrorMessage();
+  };
 
   fetch(url)
     .then(functionForJSON)
