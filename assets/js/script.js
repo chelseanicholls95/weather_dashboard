@@ -36,6 +36,16 @@ const getIconUrl = (weather) => {
   return url;
 };
 
+const getUvIndexClass = (uvIndex) => {
+  if (uvIndex < 2) {
+    return "bg-success";
+  } else if (uvIndex < 7) {
+    return "bg-warning";
+  } else {
+    return "bg-danger text-white";
+  }
+};
+
 const getCurrentData = (cityName, currentData) => {
   // extract data from current data
   const data = {
@@ -64,6 +74,7 @@ const getForecastData = (dailyData) => {
 
 const renderCurrentCard = (currentData) => {
   // create elements
+  const uvIndexClass = getUvIndexClass(currentData.uvIndex);
   const currentWeather = `<div class="d-flex justify-content-center mt-3">
   <h2>${currentData.name}, ${currentData.date} <img src="${currentData.iconURL}" /></h2>
   </div>
@@ -71,7 +82,7 @@ const renderCurrentCard = (currentData) => {
   <div class="m-2">Temperature: ${currentData.temperature} °C</div>
   <div class="m-2">Humidity: ${currentData.humidity}%</div>
   <div class="m-2">Wind Speed: ${currentData.windSpeed} MPH</div>
-  <div class="m-2">UV Index: <span class="">${currentData.uvIndex}</span></div>
+  <div class="m-2">UV Index: <span class="p-1 rounded ${uvIndexClass}">${currentData.uvIndex}</span></div>
 </div>`;
 
   // append to container
