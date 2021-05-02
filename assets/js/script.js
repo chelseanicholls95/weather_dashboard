@@ -218,17 +218,19 @@ const onLoad = () => {
 const onSubmit = (event) => {
   event.preventDefault();
 
-  const cityName = $(".form-control").val();
+  const cityName = $(".form-control").val().trim();
 
-  const citiesFromLocalStorage = getCitiesFromLocalStorage();
-  citiesFromLocalStorage.push(cityName);
-  localStorage.setItem("cities", JSON.stringify(citiesFromLocalStorage));
+  if (cityName) {
+    const citiesFromLocalStorage = getCitiesFromLocalStorage();
+    citiesFromLocalStorage.push(cityName);
+    localStorage.setItem("cities", JSON.stringify(citiesFromLocalStorage));
 
-  fetchAllWeatherData(cityName);
+    fetchAllWeatherData(cityName);
 
-  renderCities(citiesFromLocalStorage);
+    renderCities(citiesFromLocalStorage);
 
-  $(".form-control").val("");
+    $(".form-control").val("");
+  }
 };
 
 $(".list-group").click(onClick);
