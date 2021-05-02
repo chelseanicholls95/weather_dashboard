@@ -51,20 +51,15 @@ const getUvIndexClass = (uvIndex) => {
   }
 };
 
-const getCurrentData = (cityName, currentData) => {
-  // extract data from current data
-  const data = {
-    name: cityName,
-    date: getDate(currentData.dt),
-    iconURL: getIconUrl(currentData.weather),
-    temperature: currentData.temp,
-    humidity: currentData.humidity,
-    windSpeed: currentData.wind_speed,
-    uvIndex: currentData.uvi,
-  };
-
-  return data;
-};
+const getCurrentData = (name, currentData) => ({
+  name,
+  date: getDate(currentData.dt),
+  iconURL: getIconUrl(currentData.weather),
+  temperature: currentData.temp,
+  humidity: currentData.humidity,
+  windSpeed: currentData.wind_speed,
+  uvIndex: currentData.uvi,
+});
 
 const getForecastData = (dailyData) => {
   // extract data from the forecast data
