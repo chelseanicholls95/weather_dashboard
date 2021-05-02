@@ -138,19 +138,18 @@ const renderErrorMessage = () => {
 };
 
 const constructUrl = (cityName, lat, lon) => {
-  // construct correct url based on information
-  if (cityName !== "") {
+  if (cityName && !lat && !lon) {
     return `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
-  } else {
+  }
+
+  if (!cityName && lat && lon) {
     return `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
   }
 };
 
 const fetchAllWeatherData = (cityName = "Solihull") => {
-  // remove previous cities weather
   $("#main-div").empty();
 
-  // construct url
   const url = constructUrl(cityName, "", "");
 
   const functionForJSON = (responseObject) => responseObject.json();
