@@ -11,6 +11,8 @@ const onClick = (event) => {
 };
 
 const renderCities = (cities) => {
+  $(".list-group").empty();
+
   const renderCity = (city) => {
     const listItem = `<li class="list-group-item" id="city">${city}</li>`;
     $(".list-group").prepend(listItem);
@@ -215,16 +217,18 @@ const onLoad = () => {
 
 const onSubmit = (event) => {
   event.preventDefault();
-  // get input value, fetch weather for that city and add to search history list
-  const cityName = $(".form-control").val();
-  fetchAllWeatherData(cityName);
-  renderCities(cityName);
-  $(".form-control").val("");
 
-  // save to local storage
+  const cityName = $(".form-control").val();
+
   const citiesFromLocalStorage = getCitiesFromLocalStorage();
   citiesFromLocalStorage.push(cityName);
   localStorage.setItem("cities", JSON.stringify(citiesFromLocalStorage));
+
+  fetchAllWeatherData(cityName);
+
+  renderCities(citiesFromLocalStorage);
+
+  $(".form-control").val("");
 };
 
 $(".list-group").click(onClick);
