@@ -193,14 +193,9 @@ const fetchAllWeatherData = (cityName = "Solihull") => {
 };
 
 const getCitiesFromLocalStorage = () => {
-  // get cities from local storage
-  const citiesFromLocalStorage = localStorage.getItem("cities");
+  const citiesFromLocalStorage = JSON.parse(localStorage.getItem("cities"));
 
-  if (citiesFromLocalStorage) {
-    return JSON.parse(citiesFromLocalStorage);
-  } else {
-    return [];
-  }
+  return citiesFromLocalStorage ? citiesFromLocalStorage : [];
 };
 
 const onLoad = () => {
