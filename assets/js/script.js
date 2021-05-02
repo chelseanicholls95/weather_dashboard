@@ -10,10 +10,13 @@ const onClick = (event) => {
   }
 };
 
-const renderCities = (city) => {
-  // add list item to top of search history list
-  const listItem = `<li class="list-group-item" id="city">${city}</li>`;
-  $(".list-group").prepend(listItem);
+const renderCities = (cities) => {
+  const renderCity = (city) => {
+    const listItem = `<li class="list-group-item" id="city">${city}</li>`;
+    $(".list-group").prepend(listItem);
+  };
+
+  cities.forEach(renderCity);
 };
 
 const getDate = (datetime) => {
@@ -202,10 +205,7 @@ const onLoad = () => {
   // read from local storage and store data in variable called citiesFromLocalStorage
   const citiesFromLocalStorage = getCitiesFromLocalStorage();
 
-  // if data is present and pass the data from local storage
-  if (citiesFromLocalStorage) {
-    citiesFromLocalStorage.forEach(renderCities);
-  }
+  renderCities(citiesFromLocalStorage);
 
   // get the last city name from citiesFromLocalStorage and store in variable called cityName
   const length = citiesFromLocalStorage.length;
