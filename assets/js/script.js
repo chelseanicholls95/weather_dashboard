@@ -69,20 +69,20 @@ const getForecastData = (dailyData) => ({
 });
 
 const renderCurrentCard = (currentData) => {
-  // create elements
   const uvIndexClass = getUvIndexClass(currentData.uvIndex);
-  const currentWeather = `<div id="current-weather">
-  <div class="d-flex justify-content-center mt-3">
-  <h2>${currentData.name}, ${currentData.date} <img src="${currentData.iconURL}" /></h2>
-  </div>
-<div class="mx-5">
-  <div class="m-2">Temperature: ${currentData.temperature} °C</div>
-  <div class="m-2">Humidity: ${currentData.humidity}%</div>
-  <div class="m-2">Wind Speed: ${currentData.windSpeed} MPH</div>
-  <div class="m-2">UV Index: <span class="p-1 rounded ${uvIndexClass}">${currentData.uvIndex}</span></div>
-</div></div>`;
 
-  // append to container
+  const currentWeather = `<div id="current-weather">
+    <div class="d-flex justify-content-center mt-3">
+      <h2>${currentData.name}, ${currentData.date} <img src="${currentData.iconURL}" /></h2>
+    </div>
+    <div class="mx-5">
+      <div class="m-2">Temperature: ${currentData.temperature} °C</div>
+      <div class="m-2">Humidity: ${currentData.humidity}%</div>
+      <div class="m-2">Wind Speed: ${currentData.windSpeed} MPH</div>
+      <div class="m-2">UV Index: <span class="p-1 rounded ${uvIndexClass}">${currentData.uvIndex}</span></div>
+    </div>
+  </div>`;
+
   $("#main-div").append(currentWeather);
 };
 
