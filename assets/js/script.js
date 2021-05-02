@@ -22,16 +22,13 @@ const renderCities = (cities) => {
 };
 
 const getDate = (datetime) => {
-  // convert to date
-  const date = new Date(0);
-  date.setUTCSeconds(datetime);
+  const date = new Date(datetime * 1000);
+
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
-  const formattedDate = `${day}/${month}/${year}`;
-
-  return formattedDate;
+  return `${day}/${month}/${year}`;
 };
 
 const getIconUrl = (weather) => {
