@@ -1,10 +1,9 @@
 const apiKey = "a6cdce351d249a3594ef62adb60dd561";
 
 const onClick = (event) => {
-  // get target of click
   const target = $(event.target);
+
   if (target.is("li")) {
-    // get text from target and fetch weather data for that city
     const cityName = target.text();
     fetchAllWeatherData(cityName);
   }
