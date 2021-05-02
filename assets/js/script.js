@@ -150,49 +150,39 @@ const constructUrl = (cityName, lat, lon) => {
 const fetchAllWeatherData = (cityName = "Solihull") => {
   $("#main-div").empty();
 
-  const url = constructUrl(cityName, "", "");
+  const url = constructUrl(cityName);
 
   const functionForJSON = (responseObject) => responseObject.json();
-
-  const functionForApplication = (dataFromServer) => {
-    // get city name, lat and lon from data
-    const cityName = dataFromServer.name;
-    const lat = dataFromServer.coord.lat;
-    const lon = dataFromServer.coord.lon;
-
-    // construct url
-    const url = constructUrl("", lat, lon);
-
-    const functionForJSON = (responseObject) => responseObject.json();
-
-    const functionForApplication = (dataFromServer) => {
-      // get current data and forecast data from dataFromServer
-      const currentData = getCurrentData(cityName, dataFromServer.current);
-      const forecastData = dataFromServer.daily.map(getForecastData);
-
-      // render current and forecast data
-      renderCurrentCard(currentData);
-      renderForecastTitle();
-      forecastData.slice(1).forEach(renderForecastCard);
-    };
-
-    const functionToHandleError = () => {
-      renderErrorMessage();
-    };
-
-    fetch(url)
-      .then(functionForJSON)
-      .then(functionForApplication)
-      .catch(functionToHandleError);
-  };
 
   const functionToHandleError = () => {
     renderErrorMessage();
   };
 
+  const renderWeatherCards = (dataFromServer) => {
+    const cityName = dataFromServer.name;
+    const lat = dataFromServer.coord.lat;
+    const lon = dataFromServer.coord.lon;
+
+    const url = constructUrl(undefined, lat, lon);
+
+    const renderCurrentAndForecastCards = (dataFromServer) => {
+      const currentData = getCurrentData(cityName, dataFromServer.current);
+      const forecastData = dataFromServer.daily.map(getForecastData);
+
+      renderCurrentCard(currentData);
+      renderForecastTitle();
+      forecastData.slice(1, 6).forEach(renderForecastCard);
+    };
+
+    fetch(url)
+      .then(functionForJSON)
+      .then(renderCurrentAndForecastCards)
+      .catch(functionToHandleError);
+  };
+
   fetch(url)
     .then(functionForJSON)
-    .then(functionForApplication)
+    .then(renderWeatherCards)
     .catch(functionToHandleError);
 };
 
