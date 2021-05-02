@@ -61,16 +61,12 @@ const getCurrentData = (name, currentData) => ({
   uvIndex: currentData.uvi,
 });
 
-const getForecastData = (dailyData) => {
-  // extract data from the forecast data
-  const data = {
-    date: getDate(dailyData.dt),
-    iconURL: getIconUrl(dailyData.weather),
-    temperature: dailyData.temp.day,
-    humidity: dailyData.humidity,
-  };
-  return data;
-};
+const getForecastData = (dailyData) => ({
+  date: getDate(dailyData.dt),
+  iconURL: getIconUrl(dailyData.weather),
+  temperature: dailyData.temp.day,
+  humidity: dailyData.humidity,
+});
 
 const renderCurrentCard = (currentData) => {
   // create elements
