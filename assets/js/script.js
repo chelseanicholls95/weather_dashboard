@@ -124,16 +124,15 @@ const renderForecastCard = (forecastData) => {
 };
 
 const renderErrorMessage = () => {
-  // clear any info on page
   $("#main-div").empty();
 
-  // create and append error message
   const errorMessage = `<div class="text-center position-relative h-100 w-100">
-  <div class="position-absolute top-50 start-50 translate-middle bg-dark text-white p-3 rounded">
-  <h3>Something went wrong!</h3>
-  <div>Oops, we were not able to find the city you are looking for. Please enter a valid city name.</div>
-  </div>
+    <div class="position-absolute top-50 start-50 translate-middle bg-dark text-white p-3 rounded">
+      <h3>Something went wrong!</h3>
+      <div>Oops, we were not able to find the city you are looking for. Please enter a valid city name.</div>
+    </div>
   </div>`;
+
   $("#main-div").append(errorMessage);
 };
 
