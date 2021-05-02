@@ -35,9 +35,9 @@ const getDate = (datetime) => {
 };
 
 const getIconUrl = (weather) => {
-  // get icon code and construct url
   const iconCode = weather[0].icon;
   const url = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
   return url;
 };
 
@@ -90,7 +90,7 @@ const renderForecastTitle = () => {
   const forecastTitle = `<div class="d-flex justify-content-center mt-3">
     <h4>7-Day Forecast:</h4>
   </div>
-  <div class="d-flex flex-row flex-wrap justify-content-center m-3 border" id="7-day-forecast">`;
+  <div class="d-flex flex-row flex-wrap justify-content-center m-3 border" id="7-day-forecast"></div>`;
 
   $("#main-div").append(forecastTitle);
 };
