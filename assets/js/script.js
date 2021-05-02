@@ -202,18 +202,15 @@ const getCitiesFromLocalStorage = () => {
 };
 
 const onLoad = () => {
-  // read from local storage and store data in variable called citiesFromLocalStorage
   const citiesFromLocalStorage = getCitiesFromLocalStorage();
 
   renderCities(citiesFromLocalStorage);
 
-  // get the last city name from citiesFromLocalStorage and store in variable called cityName
-  const length = citiesFromLocalStorage.length;
-  const index = length - 1;
-  const lastCity = citiesFromLocalStorage[index];
+  if (citiesFromLocalStorage.length) {
+    const lastCity = citiesFromLocalStorage[citiesFromLocalStorage.length - 1];
 
-  // fetch data for last searched city
-  fetchAllWeatherData(lastCity);
+    fetchAllWeatherData(lastCity);
+  }
 };
 
 const onSubmit = (event) => {
