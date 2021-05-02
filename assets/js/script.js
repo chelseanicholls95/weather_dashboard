@@ -96,12 +96,7 @@ const renderForecastTitle = () => {
 };
 
 const renderForecastCard = (forecastData) => {
-  // create elements
-  const forecastWeather = `
-  <div
-    class="card text-white bg-dark m-2 text-center"
-    style="width: 12rem"
-  >
+  const forecastWeather = `<div class="card text-white bg-dark m-2 text-center" style="width: 12rem">
     <div class="card-header">${forecastData.date}</div>
     <div class="card-body">
       <h5 class="card-title"><img src="${forecastData.iconURL}" /></h5>
@@ -110,7 +105,6 @@ const renderForecastCard = (forecastData) => {
     </div>
   </div>`;
 
-  // append to container
   $("#7-day-forecast").append(forecastWeather);
 };
 
